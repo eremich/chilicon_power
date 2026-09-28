@@ -5,6 +5,8 @@ import { color, font } from '../src/design-system/tokens.js';
 export const chiliconTheme = create({
   base: 'light',
   brandTitle: 'Chilicon Power · Design system',
+  // Wordmark in the sidebar; served from public/ (staticDirs), so the path works locally and under /storybook
+  brandImage: './brand-wordmark.svg',
   brandUrl: './',
   brandTarget: '_self',
 

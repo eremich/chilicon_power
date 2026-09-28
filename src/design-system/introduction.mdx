@@ -1,7 +1,13 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 import { CardGrid, DocCard, Lead } from './docs-blocks';
+import { Logo } from '../components/Logo';
 
 <Meta title="Introduction" />
+
+<div style={{ display: 'flex', alignItems: 'center', gap: 16, margin: '0 0 24px' }}>
+  <Logo className="h-16 w-16" />
+  <Logo variant="wordmark" className="h-7" />
+</div>
 
 # Chilicon Power design system
 
