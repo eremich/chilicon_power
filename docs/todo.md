@@ -78,8 +78,8 @@ Source: `chilicon-prototype-brief.md`, `chilicon-case-foundation.md` (Downloads)
 - [x] Storybook synced: Screens/Homeowner (+ cloudy, no battery, no tariff, first data, resolved, night energy, no installer), Patterns/FindInstallerSheet
 - [x] Accessibility: `npm run a11y` (axe, WCAG 2.1 AA) on 14 screens × 2 themes — 0 violations
 - [x] `npm run build` (app + Storybook at /storybook) passes; production smoke test OK
-- [ ] Deploy (Vercel) — waiting for the user's go-ahead
-- [ ] Commit + push to eremich/chilicon_power — waiting for the user's go-ahead
+- [x] Deployed to Vercel: https://chilicon-power.vercel.app (Storybook at /storybook/)
+- [x] Committed and pushed to eremich/chilicon_power (main)
 - [ ] Palette: user to say what to change; then re-run `npm run shots`
 
 ## Review
