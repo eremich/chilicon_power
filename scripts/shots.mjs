@@ -1,12 +1,13 @@
 // npm run shots — the 20 portfolio screenshots from the brief (§11) into shots/, and the same set in dark into shots/dark/.
 // 390 × 844 at 3×, reduced motion. Starts its own Vite server, so there are no manual steps.
+// Options: SHOTS_OUT=dir (default shots/), SHOTS_SCALE=2, SHOTS_EXTRA=1 adds case-study-only screens.
 import { mkdirSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createServer } from 'vite';
 import { chromium } from 'playwright';
 
 const PORT = 5199;
-const OUT = new URL('../shots/', import.meta.url);
+const OUT = process.env.SHOTS_OUT ? pathToFileURL(`${process.env.SHOTS_OUT}/`) : new URL('../shots/', import.meta.url);
 mkdirSync(new URL('dark/', OUT), { recursive: true });
 let theme = 'light';
 
@@ -15,7 +16,7 @@ await server.listen();
 const base = `http://localhost:${PORT}`;
 
 const browser = await chromium.launch();
-const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, reducedMotion: 'reduce' });
+const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: Number(process.env.SHOTS_SCALE ?? 3), reducedMotion: 'reduce' });
 const page = await context.newPage();
 
 const open = async (path, forceTheme) => {
@@ -127,6 +128,28 @@ const steps = [
   ],
   ['20-home-resolved.png', () => open('/o?scenario=resolved')],
 ];
+
+// Extra screens for the portfolio case study, beyond the brief's 20
+if (process.env.SHOTS_EXTRA)
+  steps.push(
+    ['21-signup.png', async () => {
+      await open('/start/signup');
+      await page.getByLabel('Full name').fill('Maya Chen');
+      await page.getByLabel('Email').fill('maya.chen@example.com');
+      await page.getByRole('textbox', { name: 'Password' }).fill('sunnyroof');
+    }],
+    ['22-who-are-you.png', () => open('/start/role')],
+    ['23-home-cloudy.png', () => open('/o?scenario=cloudy')],
+    ['24-home-offline.png', () => open('/o?scenario=offline')],
+    ['25-home-first-data.png', async () => {
+      await open('/o?scenario=first-data');
+    }],
+    ['26-energy-no-tariff.png', () => open('/o/energy?scenario=no-tariff')],
+    ['27-installer-site-overview.png', () => open('/i/sites/maya?scenario=issue&role=installer')],
+    ['28-installer-add-layout.png', () => open('/i/add/layout?role=installer')],
+    ['29-installer-offline-device.png', () => open('/i/sites/okafor/devices/1?role=installer')],
+    ['30-invite.png', () => open('/setup/invite')],
+  );
 
 let failed = 0;
 for (theme of ['light', 'dark'])
