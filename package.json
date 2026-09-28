@@ -1,0 +1,40 @@
+{
+  "name": "chilicon-power-prototype",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build && storybook build -o dist/storybook --quiet",
+    "preview": "vite preview --port 4173",
+    "shots": "node scripts/shots.mjs",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build -o dist/storybook",
+    "test:e2e": "node scripts/e2e-onboarding.mjs && node scripts/e2e-scenario.mjs && node scripts/e2e-states.mjs",
+    "a11y": "node scripts/a11y.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^1.48.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^10.6.0",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/addon-themes": "^10.6.0",
+    "@storybook/react-vite": "^10.6.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.6.1",
+    "playwright": "^1.63.0",
+    "postcss": "^8.5.28",
+    "storybook": "^10.6.0",
+    "storybook-addon-pseudo-states": "^10.6.0",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.21"
+  }
+}

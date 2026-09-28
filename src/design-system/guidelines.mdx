@@ -1,0 +1,58 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Lead } from './docs-blocks';
+
+<Meta title="Guidelines" />
+
+# Guidelines
+
+<Lead>How Chilicon Power looks, speaks and behaves, in one page. When the app and this page disagree, the app is wrong.</Lead>
+
+## The thesis
+
+The app answers three questions in one second: **Is my system OK? What did it produce and save today? Which panel
+needs attention?** The status card answers the first, hero numbers the second, the roof map the third.
+
+## Platform
+
+Apple HIG for structure and controls: large titles that collapse on scroll, a floating iOS 26 tab bar with labels
+(max 4 tabs), sheets with a grabber and two detents, inset grouped lists in Profile, segmented controls for periods,
+44 pt touch targets. Glass is used only on the floating tab bar; cards and content stay solid.
+
+## Color
+
+| Role | Tokens | Rule |
+| --- | --- | --- |
+| Text | `ink`, `muted` | `muted` passes 4.5:1 on both `surface` and `canvas` |
+| Actions | `brand`, `on-brand` | Primary buttons are the logo orange (#FBAB16) with dark text. Never grey primary buttons |
+| Surfaces | `canvas`, `surface`, `raised`, `line` | Cards are `surface` on `canvas`, flat |
+| Energy | `solar`, `home`, `battery`, `grid` | Always the same thing: solar is the logo orange, battery blue, grid violet, home slate |
+| Status | `ok`, `warn`, `fault` | OK is the logo leaf green (#00AA79). Always with an icon and a word, never color alone |
+| Text versions | `*-ink` | Light-theme fills fail AA as text; use the `-ink` step for words and numbers |
+
+## Status vocabulary
+
+| State | Tone | Icon | Example |
+| --- | --- | --- | --- |
+| OK | `ok` | check circle | All 24 panels producing |
+| Needs attention | `warn` | alert triangle | Panel 7 is producing 40% less |
+| Fault / offline | `fault` | wifi off / x circle | Gateway offline since 9:14 am |
+| Low but normal | neutral | cloud | Cloudy day. Output is low across the whole roof |
+| Night | neutral | moon | Night. Panels start producing around 6:12 am |
+
+## Units
+
+Power is **kW** (or **W** for one panel), energy is **kWh**. Lowercase k, capital W. Time is 12-hour US (`6:12 am`),
+dates are `May 21`, money is USD. See Foundations → Units.
+
+## Copy
+
+- English, sentence case, plain words, active voice.
+- Status answers first: "All panels producing", not "System status: nominal".
+- Buttons say what happens: "Scan gateway", "Contact installer", "Restart device".
+- Errors say what happened and what to do. No apologies.
+
+## Adding a component
+
+1. Props only, no store access. Colors, type and radius from tokens only.
+2. A `*.stories.tsx` next to it, with every variant and state.
+3. Check it in both themes with the toolbar switch.

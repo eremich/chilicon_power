@@ -1,0 +1,48 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { CardGrid, DocCard, Lead } from './docs-blocks';
+
+<Meta title="Introduction" />
+
+# Chilicon Power design system
+
+<Lead>
+  The building blocks of the Chilicon Power mobile app, 2026: solar monitoring for systems built on microinverters,
+  one per pair of panels. This Storybook is the reference; the code it renders is the source of truth.
+</Lead>
+
+## What is here
+
+<CardGrid>
+  <DocCard title="Guidelines" href="?path=/docs/guidelines--docs">
+    The thesis, color and status rules, units, copy rules, and how to add a component.
+  </DocCard>
+  <DocCard title="Foundations" href="?path=/story/foundations-tokens--colors">
+    Colors with live contrast, the output scale, type, units, radius, spacing, elevation and motion. Read straight from `tokens.js`.
+  </DocCard>
+  <DocCard title="Components" href="?path=/docs/components-statuscard--docs">
+    Every component with live examples in light and dark, a props table and usage notes.
+  </DocCard>
+</CardGrid>
+
+## Where things live
+
+| What | File |
+| --- | --- |
+| Tokens (single source) | `src/design-system/tokens.js` |
+| Utility classes built from tokens | `tailwind.config.js` |
+| Components, one per file, props only | `src/components/*.tsx` |
+| Stories next to each component | `src/components/*.stories.tsx` |
+| Number and unit formatting | `src/lib/format.ts` |
+
+## Principles
+
+- **Answer first, details on demand.** Every screen starts with a sentence, then numbers, then charts.
+- **Alert only when actionable.** A cloudy day is not an alert. A silent microinverter is.
+- **One data model, two lenses.** Owners see meaning, installers see mechanics.
+- **Units are sacred.** kW for power, kWh for energy, never mixed.
+- **One hero element.** The live energy flow on Home. Everything else is calm.
+- **Props in, events out.** Components never read the app store, so they render here exactly as in the app.
+
+## Themes
+
+Use the theme switch in the toolbar: **light**, **dark**, or **both** side by side.

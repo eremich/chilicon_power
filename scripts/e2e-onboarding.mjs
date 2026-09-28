@@ -1,0 +1,61 @@
+// Click-through check of homeowner onboarding: sign up → role → verify → scan (error, then two gateways)
+// → address → details → connecting → waiting → Home, where the first data arrives. Needs the app on 5174.
+import { chromium } from 'playwright';
+
+const BASE = process.env.BASE ?? 'http://localhost:5174';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+const errs = [];
+p.on('pageerror', (e) => errs.push(e.message));
+p.on('console', (m) => m.type() === 'error' && errs.push(m.text().slice(0, 200)));
+const btn = (n) => p.getByRole('button', { name: n }).first();
+const at = (label) => console.log('✓', label, '→', new URL(p.url()).pathname);
+const top = async () => (await p.locator('main').innerText()).split('\n').slice(0, 3).join(' | ');
+
+await p.goto(`${BASE}/start?theme=light`);
+await btn('Sign up').click();
+await btn('Continue').click();
+console.log('  empty submit shows errors:', await p.locator('p.text-fault-ink').count());
+await p.getByLabel('Full name').fill('Maya Chen');
+await p.getByLabel('Email').fill('maya.chen@example.com');
+await p.getByRole('textbox', { name: 'Password' }).fill('sunnyroof24');
+await btn('Continue').click();
+at('signup');
+await btn('Continue').click();
+at('role');
+await btn('I’ve confirmed my email').click();
+at('verify');
+await btn('Continue').click();
+at('add system');
+
+await p.goto(`${BASE}/setup/scan?result=error`);
+const scan = () => p.getByRole('button', { name: 'Scan the gateway QR code' }).click();
+await scan();
+await p.waitForTimeout(1400);
+console.log('  scan error:', await p.getByRole('alert').innerText());
+await scan();
+await p.waitForTimeout(1400);
+await btn('Add another gateway').click();
+await scan();
+await p.waitForTimeout(1400);
+console.log('  second gateway:', await p.locator('.font-mono').first().innerText(), '|', await p.getByText(/gateways added/).innerText());
+await btn('Continue').click();
+at('scan');
+await p.getByLabel('Address').fill('2148 Alder');
+await btn(/Alder Creek Way/).click();
+await btn('Continue').click();
+at('address');
+await btn('Continue').click();
+at('details');
+await p.waitForTimeout(2300);
+await btn('Continue').click();
+at('connecting');
+await btn('Go to Home').click();
+at('waiting');
+console.log('  home right away:', await top());
+await p.waitForTimeout(5500);
+console.log('  home after data:', await top());
+console.log('  notification shown:', (await p.getByText('Your first numbers are in').count()) > 0);
+console.log(errs.length ? `✗ console errors: ${errs.join(' / ')}` : '✓ no console errors');
+await b.close();
+process.exit(errs.length ? 1 : 0);
