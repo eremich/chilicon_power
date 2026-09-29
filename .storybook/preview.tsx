@@ -15,12 +15,16 @@ type ThemeGlobal = 'light' | 'dark' | 'both';
 const withTheme: Decorator = (Story, ctx) => {
   const theme = (ctx.globals.theme as ThemeGlobal) ?? 'light';
   const fullscreen = ctx.parameters.layout === 'fullscreen';
-  document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light';
+  // Docs pages sit on Storybook's white page, so the page stays light and only the examples go dark.
+  // Theming the whole <html> there turned the docs text white on white.
+  const docs = ctx.viewMode === 'docs';
+  document.documentElement.dataset.theme = !docs && theme === 'dark' ? 'dark' : 'light';
   const frame = (t: 'light' | 'dark') => (
     <div data-theme={t} className={`relative bg-canvas font-sans text-ink ${fullscreen ? '' : 'rounded-card p-6'}`}>
       <Story />
     </div>
   );
+  if (docs && theme === 'dark') return frame('dark');
   if (theme !== 'both' || fullscreen) return <div className="font-sans text-ink"><Story /></div>;
   return (
     <div className="flex flex-wrap items-start gap-4">
