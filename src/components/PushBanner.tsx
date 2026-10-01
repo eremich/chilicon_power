@@ -1,4 +1,5 @@
-import { Sun, X } from 'lucide-react';
+import { X } from 'lucide-react';
+import { AppIcon } from './AppIcon';
 
 export interface PushBannerProps {
   title: string;
@@ -12,9 +13,7 @@ export interface PushBannerProps {
 export const PushBanner = ({ title, body, time = 'now', onOpen, onDismiss }: PushBannerProps) => (
   <div className="banner-enter flex items-start gap-3 rounded-[22px] bg-surface/95 p-3 shadow-banner ring-1 ring-line">
     <button type="button" onClick={onOpen} className="flex min-w-0 flex-1 items-start gap-3 text-left">
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-[9px] bg-ink">
-        <Sun aria-hidden className="size-5 text-brand" strokeWidth={2.25} />
-      </span>
+      <AppIcon size={38} decorative />
       <span className="flex min-w-0 flex-1 flex-col">
         <span className="flex justify-between gap-2 text-footnote">
           <span className="font-semibold text-ink">Chilicon Power</span>
